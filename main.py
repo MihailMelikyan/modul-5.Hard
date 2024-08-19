@@ -15,11 +15,14 @@ class User:
 
 
 class Video:
+
     def __init__(self, title, duration, adult_mode = False):
         self.title = title
         self.duration = duration
         self.time_now = 0
         self.adult_mode = adult_mode
+        self.videos = []
+
 
 
     def __str__(self):
@@ -59,7 +62,10 @@ class UrTube:
 
     def add(self, *all_videos):
         for video in all_videos:
-            if video not in self.videos:
+            if any(vid.title == video.title for vid in self.videos):
+                print(f'видео с названием {video.title} уже есть')
+            else:
+                print(f'видео с названием {video.title} добавлено')
                 self.videos.append(video)
 
     def get_videos(self, word):
@@ -94,8 +100,9 @@ if __name__ == '__main__':
     ur = UrTube()
     v1 = Video('Лучший язык программирования 2024 года', 200)
     v2 = Video('Для чего девушкам парень программист?', 10, adult_mode := True)
+    v3 = Video('Для чего девушкам парень программист?', 10, adult_mode := True)
     # Добавление видео
-    ur.add(v1, v2)
+    ur.add(v1, v2, v3)
 
     # Проверка поиска
     print(ur.get_videos('лучший'))
